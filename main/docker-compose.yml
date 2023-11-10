@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  receiver:
+    build:
+      context: ./receiver
+    networks:
+      - mynetwork
+    ports:
+      - "8080:8080"
+  sender:
+    build:
+      context: ./sender
+    networks:
+      - mynetwork
+    depends_on:
+      - receiver
+    command: ["bash", "-c", "sleep 10 && python /main/sender.py"]
+
+
+networks:
+  mynetwork:
+    driver: bridge
+
+
